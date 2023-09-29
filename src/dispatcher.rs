@@ -41,7 +41,8 @@ pub async fn get_people(config: &Config, filter: &str, field: &str) -> Result<St
     let filtered_list_raw = filters::filter(&body, filter, field).await?;
     let filtered_list = serde_json::json!(filtered_list_raw);
 
-    // Now that we have
+    // Now that we have a filtered list, we iterate over that and
+    // expand all the elements into m42_objects
     if let serde_json::Value::Array(list) = filtered_list {
         // Convert our json array into an async stream
         let stream = tokio_stream::iter(list);
